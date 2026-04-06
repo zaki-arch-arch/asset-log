@@ -13,408 +13,184 @@
 <title>⚡ MY ASSET LOG!</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{--y:#FFE600;--r:#FF3366;--b:#0033FF;--g:#00CC55;--k:#000;--w:#fff;--sh:4px 4px 0 #000;--bd:3px solid #000;}
+body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;background:#f0f0f0;min-height:100vh;max-width:480px;margin:0 auto;}
 
-:root {
-  --y: #FFE600;
-  --r: #FF3366;
-  --b: #0033FF;
-  --g: #00CC55;
-  --k: #000000;
-  --w: #FFFFFF;
-  --sh: 4px 4px 0 #000;
-  --bd: 3px solid #000;
-}
+/* HEADER */
+.hdr{background:var(--y);border-bottom:var(--bd);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;}
+.hdr-logo{font-size:16px;font-weight:900;letter-spacing:1px;}
+.hdr-logo em{color:var(--r);font-style:normal;}
+.hdr-right{display:flex;align-items:center;gap:8px;}
+.hdr-total{font-size:15px;font-weight:900;}
+.hdr-export{background:var(--k);color:var(--y);border:2px solid var(--k);padding:5px 10px;font-size:11px;font-weight:900;cursor:pointer;box-shadow:2px 2px 0 #555;letter-spacing:.5px;font-family:inherit;}
+.hdr-export:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #555;}
 
-body {
-  font-family: 'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;
-  background: #f0f0f0;
-  min-height: 100vh;
-  max-width: 480px;
-  margin: 0 auto;
-}
+/* NAV */
+.nav{display:flex;background:var(--w);border-bottom:var(--bd);position:sticky;top:49px;z-index:190;}
+.nav-btn{flex:1;padding:10px 2px;background:none;border:none;border-right:2px solid #000;font-size:10px;font-weight:900;cursor:pointer;color:#777;text-transform:uppercase;letter-spacing:.3px;font-family:inherit;transition:background .1s;}
+.nav-btn:last-child{border-right:none;}
+.nav-btn.on{background:var(--y);color:var(--k);}
 
-/* ─── HEADER ─── */
-.hdr {
-  background: var(--y);
-  border-bottom: var(--bd);
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky; top:0; z-index:200;
-}
-.hdr-logo { font-size:17px; font-weight:900; letter-spacing:1px; }
-.hdr-logo em { color:var(--r); font-style:normal; }
-.hdr-total { font-size:16px; font-weight:900; }
+/* SCREENS */
+.scr{display:none;padding:14px;}
+.scr.on{display:block;}
 
-/* ─── NAV ─── */
-.nav {
-  display:flex;
-  background: var(--w);
-  border-bottom: var(--bd);
-  position: sticky; top:51px; z-index:190;
-}
-.nav-btn {
-  flex:1; padding:11px 4px;
-  background:none; border:none;
-  border-right: 2px solid #000;
-  font-size:11px; font-weight:900;
-  cursor:pointer; color:#777;
-  text-transform:uppercase; letter-spacing:.5px;
-  font-family:inherit;
-  transition: background .1s;
-}
-.nav-btn:last-child { border-right:none; }
-.nav-btn.on { background:var(--y); color:var(--k); }
-.nav-btn:hover:not(.on) { background:#f5f5f5; }
+/* CARDS */
+.card{background:var(--w);border:var(--bd);box-shadow:var(--sh);padding:16px;margin-bottom:14px;}
+.card-y{background:var(--y);}
+.card-k{background:var(--k);color:var(--w);}
+.total-lbl{font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+.total-val{font-size:32px;font-weight:900;letter-spacing:-1px;margin-bottom:2px;}
+.total-sub{font-size:11px;font-weight:700;opacity:.7;}
 
-/* ─── SCREENS ─── */
-.scr { display:none; padding:16px; }
-.scr.on { display:block; }
+/* SECTION LABEL */
+.sec-lbl{font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase;margin:14px 0 8px;color:#444;}
 
-/* ─── POP CARD ─── */
-.card {
-  background:var(--w);
-  border: var(--bd);
-  box-shadow: var(--sh);
-  padding:18px;
-  margin-bottom:16px;
-}
-.card-y { background:var(--y); }
-.card-k { background:var(--k); color:var(--w); }
+/* ACCOUNT GRID */
+.acc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.acc-card{background:var(--w);border:var(--bd);box-shadow:var(--sh);padding:12px;cursor:pointer;border-top-width:5px;transition:transform .1s;}
+.acc-card:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000;}
+.acc-name{font-size:10px;font-weight:900;letter-spacing:.5px;margin-bottom:6px;opacity:.7;}
+.acc-bal{font-size:16px;font-weight:900;margin-bottom:2px;}
+.acc-gain{font-size:11px;font-weight:900;}
+.acc-gain.pos{color:#007700;}
+.acc-gain.neg{color:#CC0000;}
 
-/* ─── SECTION LABEL ─── */
-.sec-lbl {
-  display:inline-block;
-  background:var(--k); color:var(--y);
-  font-size:10px; font-weight:900;
-  text-transform:uppercase; letter-spacing:1.5px;
-  padding:4px 10px;
-  margin-bottom:12px;
-}
+/* CHART */
+.chart-wrap{background:var(--w);border:var(--bd);box-shadow:var(--sh);padding:14px;margin-bottom:14px;}
 
-/* ─── TOTAL ─── */
-.total-lbl { font-size:10px; font-weight:900; color:#555; text-transform:uppercase; letter-spacing:1px; margin-bottom:3px; }
-.total-val { font-size:38px; font-weight:900; line-height:1; color:var(--k); }
-.total-sub { font-size:11px; font-weight:700; color:#555; margin-top:4px; }
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;}
+.stat-cell{padding:14px 12px;border-right:2px solid #000;border-bottom:2px solid #000;}
+.stat-cell:nth-child(2n){border-right:none;}
+.stat-cell:nth-last-child(-n+2){border-bottom:none;}
+.stat-lbl{font-size:9px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;color:#666;}
+.stat-val{font-size:18px;font-weight:900;}
+.stat-val.pos{color:#007700;}
+.stat-val.neg{color:#CC0000;}
 
-/* ─── ACCOUNT GRID ─── */
-.acc-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
-.acc-card {
-  background:var(--w);
-  border: var(--bd);
-  box-shadow: 3px 3px 0 #000;
-  padding:12px;
-  cursor:pointer;
-  transition: transform .1s, box-shadow .1s;
-  border-top-width: 5px;
-}
-.acc-card:hover { transform:translate(-1px,-1px); box-shadow:4px 4px 0 #000; }
-.acc-card:active { transform:translate(2px,2px); box-shadow:1px 1px 0 #000; }
-.acc-yn { border-top-color: var(--r); }
-.acc-yi { border-top-color: var(--b); }
-.acc-kn { border-top-color: var(--g); }
-.acc-kd { border-top-color: #FF7700; }
-.acc-name { font-size:9px; font-weight:900; text-transform:uppercase; color:#555; margin-bottom:3px; }
-.acc-bal  { font-size:17px; font-weight:900; color:var(--k); margin-bottom:1px; }
-.acc-gain { font-size:10px; font-weight:700; }
-.pos { color:#007700; }
-.neg { color:var(--r); }
+/* FORM */
+.f-grp{margin-bottom:12px;}
+.f-lbl{display:block;font-size:10px;font-weight:900;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+.pop-inp{width:100%;padding:10px 12px;font-size:15px;font-weight:700;border:var(--bd);box-shadow:var(--sh);background:var(--w);font-family:inherit;-webkit-appearance:none;}
+.pop-inp:focus{outline:none;border-color:var(--r);box-shadow:4px 4px 0 var(--r);}
+.sel-wrap{position:relative;}
+.sel-wrap::after{content:"▼";position:absolute;right:12px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:10px;font-weight:900;}
+.pop-sel{width:100%;padding:10px 12px;font-size:14px;font-weight:700;border:var(--bd);box-shadow:var(--sh);background:var(--w);-webkit-appearance:none;appearance:none;font-family:inherit;cursor:pointer;}
+.auto-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.auto-box{border:2px dashed #ccc;padding:10px 12px;background:#fafafa;}
+.auto-lbl{font-size:9px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:#999;margin-bottom:4px;}
+.auto-val{font-size:15px;font-weight:900;color:#555;}
+.pop-btn{width:100%;padding:14px;font-size:14px;font-weight:900;border:var(--bd);box-shadow:var(--sh);cursor:pointer;text-transform:uppercase;letter-spacing:1px;font-family:inherit;transition:transform .1s,box-shadow .1s;}
+.pop-btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000;}
+.pop-btn-y{background:var(--y);color:var(--k);}
+.pop-btn-r{background:var(--r);color:var(--w);}
+.pop-btn-sm{width:auto;padding:7px 12px;font-size:11px;}
+.success{display:none;position:fixed;top:70px;left:50%;transform:translateX(-50%);background:var(--k);color:var(--y);padding:10px 20px;font-size:12px;font-weight:900;letter-spacing:1px;z-index:500;border:2px solid var(--y);box-shadow:4px 4px 0 var(--y);white-space:nowrap;}
+.success.show{display:block;}
 
-/* ─── CHART ─── */
-.chart-wrap {
-  background:var(--w);
-  border:var(--bd);
-  box-shadow: var(--sh);
-  padding:14px;
-  margin-bottom:16px;
-}
+/* FILTER TABS */
+.ftabs{display:flex;gap:6px;margin-bottom:10px;overflow-x:auto;padding-bottom:4px;}
+.ftab{padding:6px 12px;font-size:10px;font-weight:900;border:2px solid #000;box-shadow:2px 2px 0 #000;background:var(--w);cursor:pointer;white-space:nowrap;font-family:inherit;flex-shrink:0;}
+.ftab.on{background:var(--k);color:var(--y);}
+.rec-count{background:var(--k);color:var(--y);text-align:center;padding:6px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
 
-/* ─── STATS ROW ─── */
-.stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:0; }
-.stat-cell {
-  padding:12px;
-  border-bottom:2px solid #000;
-  border-right:2px solid #000;
-}
-.stat-cell:nth-child(even) { border-right:none; }
-.stat-cell:nth-child(3), .stat-cell:nth-child(4) { border-bottom:none; }
-.stat-lbl { font-size:9px; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:#666; margin-bottom:3px; }
-.stat-val { font-size:20px; font-weight:900; color:var(--k); }
+/* HISTORY ITEMS */
+.h-item{background:var(--w);border:2px solid #000;box-shadow:3px 3px 0 #000;padding:12px;margin-bottom:8px;}
+.h-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.h-date{font-size:11px;font-weight:900;flex:1;}
+.h-badge{font-size:9px;font-weight:900;padding:3px 7px;border:1.5px solid #000;color:#fff;letter-spacing:.5px;}
+.h-actions{display:flex;gap:4px;margin-left:auto;}
+.h-btn{padding:4px 8px;font-size:11px;font-weight:900;border:2px solid #000;box-shadow:2px 2px 0 #000;cursor:pointer;font-family:inherit;background:var(--w);}
+.h-btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #000;}
+.h-btn.edit{background:var(--y);}
+.h-btn.del{background:var(--r);color:var(--w);}
+.h-vals{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.h-lbl{font-size:9px;font-weight:900;letter-spacing:.5px;text-transform:uppercase;color:#888;margin-bottom:2px;}
+.h-val{font-size:13px;font-weight:900;}
 
-/* ─── FORM ─── */
-.f-grp { margin-bottom:14px; }
-.f-lbl {
-  display:block;
-  font-size:10px; font-weight:900;
-  text-transform:uppercase; letter-spacing:1px;
-  color:var(--k); margin-bottom:5px;
-}
-.f-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.pop-inp, .pop-sel {
-  width:100%;
-  padding:10px 12px;
-  border: var(--bd);
-  border-radius:0;
-  font-size:15px; font-weight:700;
-  color:var(--k); background:var(--w);
-  box-shadow: 3px 3px 0 #000;
-  font-family:inherit;
-  outline:none;
-  -webkit-appearance:none; appearance:none;
-}
-.pop-inp:focus, .pop-sel:focus {
-  background: #FFFDE7;
-  box-shadow: 4px 4px 0 var(--r);
-  border-color: var(--r);
-}
-.sel-wrap { position:relative; }
-.sel-wrap::after {
-  content:"▼"; position:absolute;
-  right:10px; top:50%; transform:translateY(-50%);
-  font-size:9px; pointer-events:none; font-weight:900;
-}
-.auto-box {
-  width:100%;
-  padding:10px 12px;
-  background:#f5f5f5;
-  border:2px dashed #aaa;
-  font-size:15px; font-weight:700; color:#555;
-}
-.auto-tag {
-  font-size:8px; font-weight:900;
-  background:var(--k); color:var(--y);
-  padding:2px 5px; text-transform:uppercase;
-  letter-spacing:1px; vertical-align:middle; margin-left:4px;
-}
+/* EMPTY */
+.empty{text-align:center;padding:40px 20px;border:3px dashed #ccc;color:#aaa;}
+.empty-ico{font-size:44px;margin-bottom:10px;}
+.empty p{font-size:12px;font-weight:700;text-transform:uppercase;}
 
-/* ─── BUTTON ─── */
-.pop-btn {
-  display:block; width:100%;
-  padding:15px;
-  background:var(--r); color:var(--w);
-  border: var(--bd);
-  box-shadow: var(--sh);
-  font-size:15px; font-weight:900;
-  text-transform:uppercase; letter-spacing:2px;
-  cursor:pointer; font-family:inherit;
-  transition: transform .1s, box-shadow .1s;
-  margin-top:4px;
-}
-.pop-btn:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 #000; }
-.pop-btn:active { transform:translate(2px,2px); box-shadow:2px 2px 0 #000; }
-.pop-btn-y { background:var(--y); color:var(--k); }
-.pop-btn-sm { width:auto; padding:8px 14px; font-size:11px; display:inline-block; }
+/* WELCOME */
+.welcome{background:var(--k);color:var(--y);border:3px solid var(--k);box-shadow:var(--sh);padding:20px 16px;margin-bottom:14px;text-align:center;}
+.welcome-title{font-size:18px;font-weight:900;letter-spacing:2px;margin-bottom:8px;}
+.welcome-body{font-size:12px;line-height:1.8;color:#fff;margin-bottom:14px;}
+.welcome-btn{display:block;width:100%;padding:12px;font-size:13px;font-weight:900;background:var(--y);color:var(--k);border:3px solid var(--y);box-shadow:3px 3px 0 var(--y);cursor:pointer;letter-spacing:1px;margin-bottom:8px;font-family:inherit;}
 
-/* ─── SUCCESS ─── */
-.success {
-  display:none;
-  background:var(--y);
-  border:var(--bd);
-  box-shadow:var(--sh);
-  padding:14px;
-  text-align:center;
-  font-size:15px; font-weight:900;
-  margin-bottom:14px;
-}
-@keyframes popin {
-  0%{ transform:scale(.85); opacity:0; }
-  60%{ transform:scale(1.05); }
-  100%{ transform:scale(1); opacity:1; }
-}
-.success.show { display:block; animation:popin .3s ease; }
-
-/* ─── HISTORY ─── */
-.filter-row { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
-.ftab {
-  padding:5px 10px;
-  border:2px solid #000;
-  background:var(--w);
-  font-size:10px; font-weight:900;
-  cursor:pointer; font-family:inherit;
-  text-transform:uppercase; letter-spacing:.5px;
-}
-.ftab.on { background:var(--k); color:var(--y); }
-
-.rec-count {
-  background:var(--k); color:var(--y);
-  text-align:center; padding:7px;
-  font-size:10px; font-weight:900;
-  text-transform:uppercase; letter-spacing:1px;
-  margin-bottom:12px;
-}
-
-.h-item {
-  background:var(--w);
-  border:2px solid #000;
-  box-shadow:3px 3px 0 #000;
-  padding:12px;
-  margin-bottom:10px;
-}
-.h-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
-.h-date { font-size:12px; font-weight:900; color:#333; }
-.h-badge {
-  font-size:9px; font-weight:900;
-  padding:3px 8px; border:2px solid #000;
-  text-transform:uppercase;
-}
-.bg-yn { background:#FFE8EC; }
-.bg-yi { background:#E8EEFF; }
-.bg-kn { background:#E8FFE8; }
-.bg-kd { background:#FFF3E0; }
-.h-vals { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
-.h-lbl { font-size:9px; font-weight:700; text-transform:uppercase; color:#888; }
-.h-val { font-size:13px; font-weight:700; color:var(--k); }
-
-/* ─── EMPTY ─── */
-.empty { text-align:center; padding:40px 20px; border:3px dashed #ccc; color:#aaa; }
-.empty-ico { font-size:44px; margin-bottom:10px; }
-.empty p { font-size:12px; font-weight:700; text-transform:uppercase; }
-
-/* ─── WELCOME BANNER ─── */
-.welcome {
-  background: var(--k);
-  color: var(--y);
-  border: 3px solid var(--k);
-  box-shadow: var(--sh);
-  padding: 20px 16px;
-  margin-bottom: 14px;
-  text-align: center;
-}
-.welcome-title { font-size: 18px; font-weight: 900; letter-spacing: 2px; margin-bottom: 8px; }
-.welcome-body  { font-size: 12px; line-height: 1.8; color: #fff; margin-bottom: 14px; }
-.welcome-btn {
-  display: inline-block; width: 100%;
-  padding: 12px; font-size: 13px; font-weight: 900;
-  background: var(--y); color: var(--k);
-  border: 3px solid var(--y); box-shadow: 3px 3px 0 var(--y);
-  cursor: pointer; letter-spacing: 1px;
-}
-
-/* ─── DATA MANAGEMENT ─── */
-.data-mgmt {
-  margin: 20px 0 8px;
-  border: 3px solid var(--k);
-  box-shadow: var(--sh);
-  background: var(--y);
-  padding: 14px;
-}
-.data-mgmt-title {
-  font-size: 11px; font-weight: 900;
-  letter-spacing: 2px; text-transform: uppercase;
-  margin-bottom: 10px; color: var(--k);
-}
-.data-mgmt-row {
-  display: flex; gap: 8px;
-}
-.mgmt-btn {
-  flex: 1; padding: 9px 6px;
-  font-size: 11px; font-weight: 900;
-  border: 2px solid var(--k);
-  box-shadow: 3px 3px 0 #000;
-  cursor: pointer; background: var(--w);
-  letter-spacing: .5px;
-  transition: transform .1s, box-shadow .1s;
-}
-.mgmt-btn:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 #000; }
-.mgmt-btn.export { background: #0033FF; color: #fff; }
-.mgmt-btn.import { background: #00CC55; color: #000; }
+/* ACCOUNT MANAGEMENT */
+.acct-item{background:var(--w);border:2px solid #000;box-shadow:3px 3px 0 #000;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.acct-dot{width:16px;height:16px;border:2px solid #000;border-radius:50%;flex-shrink:0;}
+.acct-name{font-size:14px;font-weight:900;flex:1;}
+.acct-cnt{font-size:10px;color:#888;font-weight:700;}
+.acct-del{padding:5px 10px;font-size:10px;font-weight:900;border:2px solid #000;box-shadow:2px 2px 0 #000;cursor:pointer;background:var(--r);color:var(--w);font-family:inherit;}
+.acct-del:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #000;}
+.add-acct-row{display:flex;gap:8px;margin-bottom:8px;}
+.add-acct-row .pop-inp{flex:1;margin-bottom:0;}
+.add-acct-btn{padding:10px 14px;font-size:12px;font-weight:900;border:var(--bd);box-shadow:var(--sh);cursor:pointer;background:var(--g);color:var(--k);white-space:nowrap;font-family:inherit;}
+.edit-banner{background:var(--r);color:var(--w);padding:10px 14px;font-size:12px;font-weight:900;letter-spacing:1px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;}
+.edit-cancel{background:none;border:2px solid var(--w);color:var(--w);padding:4px 10px;font-size:10px;font-weight:900;cursor:pointer;font-family:inherit;}
 </style>
 </head>
 <body>
 
 <header class="hdr">
   <div class="hdr-logo">⚡ MY <em>ASSET</em> LOG!</div>
-  <div class="hdr-total" id="hdrTotal">¥—</div>
+  <div class="hdr-right">
+    <div class="hdr-total" id="hdrTotal">¥—</div>
+    <button class="hdr-export" onclick="exportDB()">⬇️ EXPORT</button>
+  </div>
 </header>
 
 <nav class="nav">
-  <button class="nav-btn on" onclick="go('dash')">📊 Dashboard</button>
-  <button class="nav-btn" onclick="go('reg')">✏️ Register</button>
-  <button class="nav-btn" onclick="go('hist')">📋 History</button>
+  <button class="nav-btn on" onclick="go('dash')">📊 ダッシュ</button>
+  <button class="nav-btn" onclick="go('reg')">✏️ 登録</button>
+  <button class="nav-btn" onclick="go('hist')">📋 履歴</button>
+  <button class="nav-btn" onclick="go('acct')">⚙️ 口座</button>
 </nav>
 
-<!-- ═══════════ DASHBOARD ═══════════ -->
+<!-- ═══ DASHBOARD ═══ -->
 <div id="s-dash" class="scr on">
-
   <div id="welcome" class="welcome" style="display:none">
     <div class="welcome-title">👋 WELCOME!</div>
-    <div class="welcome-body">
-      データがまだありません。<br>
-      JSONファイルをインポートして<br>過去データを読み込んでください。
-    </div>
+    <div class="welcome-body">データがまだありません。<br>JSONをインポートするか、<br>口座を登録してはじめましょう。</div>
     <button class="welcome-btn" onclick="importDB()">⬆️ JSONをインポート</button>
+    <button class="welcome-btn" style="background:var(--w);border-color:var(--w);" onclick="go('acct')">⚙️ 口座を追加する</button>
   </div>
-
   <div class="card card-y">
     <div class="total-lbl">💰 Total Assets</div>
     <div class="total-val" id="dTotal">¥—</div>
     <div class="total-sub" id="dDate">— 時点</div>
   </div>
-
   <div class="sec-lbl">◼ Accounts</div>
-  <div class="acc-grid">
-    <div class="acc-card acc-yn" onclick="jump('ゆかりNISA')">
-      <div class="acc-name">ゆかり NISA</div>
-      <div class="acc-bal" id="a0b">¥—</div>
-      <div class="acc-gain" id="a0r">—%</div>
-    </div>
-    <div class="acc-card acc-yi" onclick="jump('ゆかりiDeCo')">
-      <div class="acc-name">ゆかり iDeCo</div>
-      <div class="acc-bal" id="a1b">¥—</div>
-      <div class="acc-gain" id="a1r">—%</div>
-    </div>
-    <div class="acc-card acc-kn" onclick="jump('紘平NISA')">
-      <div class="acc-name">紘平 NISA</div>
-      <div class="acc-bal" id="a2b">¥—</div>
-      <div class="acc-gain" id="a2r">—%</div>
-    </div>
-    <div class="acc-card acc-kd" onclick="jump('紘平企業DC')">
-      <div class="acc-name">紘平 企業DC</div>
-      <div class="acc-bal" id="a3b">¥—</div>
-      <div class="acc-gain" id="a3r">—%</div>
-    </div>
-  </div>
-
+  <div class="acc-grid" id="accGrid"></div>
   <div class="sec-lbl">◼ Portfolio Trend</div>
-  <div class="chart-wrap">
-    <canvas id="chart" height="200"></canvas>
-  </div>
-
+  <div class="chart-wrap"><canvas id="chart" height="200"></canvas></div>
   <div class="sec-lbl">◼ Stats</div>
   <div class="card" style="padding:0">
     <div class="stats-grid">
-      <div class="stat-cell">
-        <div class="stat-lbl">Total Invested</div>
-        <div class="stat-val" id="dPrin" style="font-size:17px">¥—</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-lbl">Total Gains</div>
-        <div class="stat-val pos" id="dGain" style="font-size:17px">¥—</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-lbl">Return Rate</div>
-        <div class="stat-val pos" id="dRet" style="font-size:17px">—%</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-lbl">Total Records</div>
-        <div class="stat-val" id="dCnt" style="font-size:17px">—</div>
-      </div>
+      <div class="stat-cell"><div class="stat-lbl">Total Invested</div><div class="stat-val" id="dPrin">¥—</div></div>
+      <div class="stat-cell"><div class="stat-lbl">Total Gains</div><div class="stat-val" id="dGain">¥—</div></div>
+      <div class="stat-cell"><div class="stat-lbl">Return Rate</div><div class="stat-val" id="dRet">—%</div></div>
+      <div class="stat-cell"><div class="stat-lbl">Total Records</div><div class="stat-val" id="dCnt">—</div></div>
     </div>
   </div>
-
 </div>
 
-<!-- ═══════════ REGISTER ═══════════ -->
+<!-- ═══ REGISTER ═══ -->
 <div id="s-reg" class="scr">
-
   <div class="success" id="suc">⚡ 登録完了！ REGISTERED! ⚡</div>
-
+  <div id="editBanner" class="edit-banner" style="display:none">
+    ✏️ 編集モード
+    <button class="edit-cancel" onclick="cancelEdit()">✕ キャンセル</button>
+  </div>
   <div class="card">
-    <div class="sec-lbl" style="margin-bottom:16px">◼ New Entry</div>
-
-    <div class="f-row" style="margin-bottom:14px">
+    <div class="sec-lbl" style="margin-bottom:14px" id="regTitle">◼ New Entry</div>
+    <div class="f-row">
       <div class="f-grp" style="margin-bottom:0">
         <label class="f-lbl">📅 Year</label>
         <div class="sel-wrap"><select class="pop-sel" id="iYear"></select></div>
@@ -433,114 +209,117 @@ body {
         </div>
       </div>
     </div>
-
     <div class="f-grp">
       <label class="f-lbl">🏦 Account</label>
-      <div class="sel-wrap">
-        <select class="pop-sel" id="iAcc">
-          <option value="ゆかりNISA">ゆかり NISA</option>
-          <option value="ゆかりiDeCo">ゆかり iDeCo</option>
-          <option value="紘平NISA">紘平 NISA</option>
-          <option value="紘平企業DC">紘平 企業DC</option>
-        </select>
-      </div>
+      <div class="sel-wrap"><select class="pop-sel" id="iAcc"></select></div>
     </div>
-
     <div class="f-grp">
-      <label class="f-lbl">💴 元金（累計投資額） ¥</label>
-      <input type="number" class="pop-inp" id="iPrin" placeholder="例: 4490072" oninput="calcAuto()" inputmode="numeric">
+      <label class="f-lbl">💰 資産残高（評価額）</label>
+      <input class="pop-inp" type="number" id="iBal" placeholder="例: 1260707" oninput="calcAuto()">
     </div>
-
     <div class="f-grp">
-      <label class="f-lbl">💰 資産残高（評価額） ¥</label>
-      <input type="number" class="pop-inp" id="iBal" placeholder="例: 7682680" oninput="calcAuto()" inputmode="numeric">
+      <label class="f-lbl">📈 運用益（利益額）</label>
+      <input class="pop-inp" type="number" id="iGain" placeholder="例: 279993（マイナスも可）" oninput="calcAuto()">
     </div>
-
-    <div class="f-row" style="margin-bottom:20px">
-      <div class="f-grp" style="margin-bottom:0">
-        <label class="f-lbl">📊 運用益 <span class="auto-tag">AUTO</span></label>
-        <div class="auto-box" id="aGain">—</div>
+    <div class="auto-row">
+      <div class="auto-box">
+        <div class="auto-lbl">🧮 元金（自動）</div>
+        <div class="auto-val" id="aPrin">—</div>
       </div>
-      <div class="f-grp" style="margin-bottom:0">
-        <label class="f-lbl">📈 リターン <span class="auto-tag">AUTO</span></label>
-        <div class="auto-box" id="aRet">—</div>
+      <div class="auto-box">
+        <div class="auto-lbl">📊 リターン%（自動）</div>
+        <div class="auto-val" id="aRet">—</div>
       </div>
     </div>
-
-    <button class="pop-btn" onclick="doReg()">⚡ REGISTER!</button>
+    <button class="pop-btn pop-btn-y" id="regBtn" onclick="doReg()">⚡ REGISTER!</button>
   </div>
-
 </div>
 
-<!-- ═══════════ HISTORY ═══════════ -->
+<!-- ═══ HISTORY ═══ -->
 <div id="s-hist" class="scr">
-  <div class="filter-row" id="ftabs">
+  <div class="ftabs" id="ftabs">
     <button class="ftab on" onclick="filt('ALL')">ALL</button>
-    <button class="ftab" onclick="filt('ゆかりNISA')">ゆかりNISA</button>
-    <button class="ftab" onclick="filt('ゆかりiDeCo')">ゆかりiDeCo</button>
-    <button class="ftab" onclick="filt('紘平NISA')">紘平NISA</button>
-    <button class="ftab" onclick="filt('紘平企業DC')">紘平企業DC</button>
   </div>
   <div class="rec-count" id="rCnt">— RECORDS</div>
   <div id="hList"></div>
-  <div class="data-mgmt">
-    <div class="data-mgmt-title">💾 DATA BACKUP</div>
-    <div class="data-mgmt-row">
-      <button class="mgmt-btn export" onclick="exportDB()">⬇️ エクスポート<br><span style="font-weight:400;font-size:9px">JSONで保存</span></button>
-      <button class="mgmt-btn import" onclick="importDB()">⬆️ インポート<br><span style="font-weight:400;font-size:9px">JSONを読込</span></button>
-    </div>
+  <div style="margin-top:16px">
+    <button class="pop-btn pop-btn-sm" style="background:var(--b);color:#fff;width:100%" onclick="importDB()">⬆️ JSONをインポート</button>
   </div>
 </div>
 
+<!-- ═══ ACCOUNT MANAGEMENT ═══ -->
+<div id="s-acct" class="scr">
+  <div class="sec-lbl">◼ 口座一覧</div>
+  <div id="acctList"></div>
+  <div class="sec-lbl" style="margin-top:16px">◼ 口座を追加</div>
+  <div class="add-acct-row">
+    <input class="pop-inp" type="text" id="newAcctName" placeholder="口座名を入力">
+    <button class="add-acct-btn" onclick="addAcct()">＋ 追加</button>
+  </div>
+  <p style="font-size:10px;color:#888;font-weight:700;margin-top:4px">口座情報はエクスポートのJSONにも含まれます</p>
+</div>
+
 <script>
-// ═══════════════════════════════════
-// DATA  (スプレッドシートから移行データ)
-// ═══════════════════════════════════
-const ACCS = ['ゆかりNISA','ゆかりiDeCo','紘平NISA','紘平企業DC'];
-const ACC_ID = { 'ゆかりNISA':'yn', 'ゆかりiDeCo':'yi', '紘平NISA':'kn', '紘平企業DC':'kd' };
-const BG   = { 'ゆかりNISA':'bg-yn','ゆかりiDeCo':'bg-yi','紘平NISA':'bg-kn','紘平企業DC':'bg-kd' };
+// ═══ CONSTANTS ═══
+const STORAGE_KEY = 'asset_log_db_v2';
+const PALETTE = ['#FF3366','#0033FF','#00CC55','#FF6600','#9900CC','#00AACC','#CC0033','#005500'];
 
-// スプレッドシートから読み取った実データ（2022年〜2026年2月）
-const SEED = [];
+// ═══ STATE ═══
+let ACCS = [];
+let DB   = [];
+let editIdx = -1;
+let curFilt = 'ALL';
+let chartInst = null;
 
-function enrich(r){
-  const g=r.b-r.p, ret=r.p>0?g/r.p*100:0;
-  return {...r,g,ret};
+// ═══ ENRICH ═══
+function enrich(r) {
+  const p = r.b - r.g;
+  const ret = p > 0 ? r.g / p * 100 : 0;
+  return {...r, p, ret};
 }
 
-// ═══════════════════════════════════
-// STORAGE
-// ═══════════════════════════════════
-const STORAGE_KEY = 'asset_log_db_v1';
-
-function saveDB(){
-  const raw = DB.map(({y,m,a,p,b})=>({y,m,a,p,b}));
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(raw));
+// ═══ STORAGE ═══
+function saveDB() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    accounts: ACCS,
+    records: DB.map(({y,m,a,b,g}) => ({y,m,a,b,g}))
+  }));
 }
 
-function loadFromStorage(){
+function initData() {
   try {
     const s = localStorage.getItem(STORAGE_KEY);
-    if(s){
-      const raw = JSON.parse(s);
-      if(Array.isArray(raw) && raw.length) return raw.map(enrich);
+    if (!s) return false;
+    const data = JSON.parse(s);
+    // 新フォーマット: {accounts, records}
+    if (data.accounts && data.records) {
+      ACCS = data.accounts;
+      DB = data.records.map(enrich);
+      return true;
     }
-  } catch(e){}
-  return null;
+    // 旧フォーマット: [{y,m,a,p,b}]
+    if (Array.isArray(data) && data.length > 0) {
+      ACCS = [...new Set(data.map(r => r.a))];
+      DB = data.map(r => enrich({y:r.y,m:r.m,a:r.a,b:r.b,g:r.b-r.p}));
+      saveDB();
+      return true;
+    }
+  } catch(e) {}
+  return false;
 }
 
-function exportDB(){
-  const raw = DB.map(({y,m,a,p,b})=>({y,m,a,p,b}));
-  const blob = new Blob([JSON.stringify(raw, null, 2)], {type:'application/json'});
+// ═══ EXPORT / IMPORT ═══
+function exportDB() {
+  const data = {accounts:ACCS, records:DB.map(({y,m,a,b,g})=>({y,m,a,b,g}))};
+  const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  const d = new Date().toISOString().slice(0,10);
-  a.href=url; a.download=`asset_log_${d}.json`;
+  a.href=url; a.download='asset_log_'+new Date().toISOString().slice(0,10)+'.json';
   document.body.appendChild(a); a.click();
   document.body.removeChild(a); URL.revokeObjectURL(url);
 }
 
-function importDB(){
+function importDB() {
   const input = document.createElement('input');
   input.type='file'; input.accept='.json';
   input.onchange = e => {
@@ -548,226 +327,320 @@ function importDB(){
     const reader = new FileReader();
     reader.onload = ev => {
       try {
-        const raw = JSON.parse(ev.target.result);
-        if(!Array.isArray(raw)) throw new Error();
-        DB = raw.map(enrich);
+        const data = JSON.parse(ev.target.result);
+        if (data.accounts && data.records) {
+          ACCS = data.accounts;
+          DB = data.records.map(enrich);
+        } else if (Array.isArray(data) && data.length > 0) {
+          // 旧フォーマット
+          ACCS = [...new Set(data.map(r => r.a))];
+          DB = data.map(r => enrich({y:r.y,m:r.m,a:r.a,b:r.b,g:r.b-r.p}));
+        } else { throw new Error(); }
         saveDB();
-        renderDash();
-        if(document.getElementById('s-hist').classList.contains('on')) renderHist(curFilt);
-        alert(`✅ ${raw.length}件のデータを読み込みました！`);
-      } catch(e){ alert('❌ ファイルの読み込みに失敗しました。'); }
+        document.getElementById('welcome').style.display='none';
+        renderAll();
+        alert('✅ '+DB.length+'件・'+ACCS.length+'口座を読み込みました！');
+      } catch(e){ alert('❌ 読み込みに失敗しました。'); }
     };
     reader.readAsText(file);
   };
   input.click();
 }
 
-let DB = (loadFromStorage()) || SEED.map(enrich);
+// ═══ UTILS ═══
+const yen = n => isNaN(n)||n===null ? '¥—' : '¥'+Math.round(n).toLocaleString('ja-JP');
+const pct = n => isNaN(n) ? '—%' : (n>=0?'+':'')+n.toFixed(2)+'%';
+function accColor(acc) {
+  const i = ACCS.indexOf(acc);
+  return i>=0 ? PALETTE[i%PALETTE.length] : '#888';
+}
 
-// ═══════════════════════════════════
-// UTILS
-// ═══════════════════════════════════
-const yen = n => isNaN(n)||n===null?'¥—':'¥'+Math.round(n).toLocaleString('ja-JP');
-const pct = n => isNaN(n)?'—%':(n>=0?'+':'')+n.toFixed(2)+'%';
-
-// ═══════════════════════════════════
-// NAVIGATION
-// ═══════════════════════════════════
-function go(id){
+// ═══ NAVIGATION ═══
+function go(id) {
   document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('on'));
   document.getElementById('s-'+id).classList.add('on');
-  const btns=[...document.querySelectorAll('.nav-btn')];
-  const map={dash:0,reg:1,hist:2};
-  btns[map[id]].classList.add('on');
+  const map={dash:0,reg:1,hist:2,acct:3};
+  document.querySelectorAll('.nav-btn')[map[id]].classList.add('on');
   if(id==='dash') renderDash();
-  if(id==='hist') renderHist('ALL');
+  if(id==='hist') { buildFilterTabs(); renderHist(curFilt); }
+  if(id==='reg')  buildAcctSelect();
+  if(id==='acct') renderAcctList();
 }
 
-function jump(acc){
-  go('hist');
-  filt(acc);
-}
+function jump(acc) { go('hist'); filt(acc); }
 
-// ═══════════════════════════════════
-// DASHBOARD
-// ═══════════════════════════════════
-function latest(acc){
+// ═══ DASHBOARD ═══
+function latest(acc) {
   return DB.filter(r=>r.a===acc).sort((a,b)=>b.y*100+b.m-(a.y*100+a.m))[0]||null;
 }
 
-let chartInst=null;
+function renderDash() {
+  // welcome banner
+  const hasData = ACCS.length>0 && DB.length>0;
+  document.getElementById('welcome').style.display = hasData ? 'none' : 'block';
 
-function renderDash(){
-  const accs=ACCS;
-  const ids=['a0','a1','a2','a3'];
+  // account grid
+  const grid = document.getElementById('accGrid');
+  grid.innerHTML = ACCS.map((acc,i) => {
+    const l = latest(acc);
+    const bal = l ? yen(l.b) : '¥—';
+    const ret = l ? pct(l.ret) : '—%';
+    const cls = l ? (l.ret>=0?'pos':'neg') : '';
+    return `<div class="acc-card" style="border-top-color:${PALETTE[i%PALETTE.length]}" onclick="jump('${acc}')">
+      <div class="acc-name">${acc}</div>
+      <div class="acc-bal">${bal}</div>
+      <div class="acc-gain ${cls}">${ret}</div>
+    </div>`;
+  }).join('');
+
+  // totals
   let totB=0,totP=0,latDate='';
-  accs.forEach((acc,i)=>{
-    const l=latest(acc);
-    if(l){
-      document.getElementById(ids[i]+'b').textContent=yen(l.b);
-      const re=document.getElementById(ids[i]+'r');
-      re.textContent=pct(l.ret);
-      re.className='acc-gain '+(l.ret>=0?'pos':'neg');
-      totB+=l.b; totP+=l.p;
-      if(!latDate) latDate=`${l.y}年${l.m}月`;
-    }
+  ACCS.forEach(acc => {
+    const l = latest(acc);
+    if(l){ totB+=l.b; totP+=l.p; if(!latDate) latDate=`${l.y}年${l.m}月`; }
   });
   const totG=totB-totP, totR=totP>0?totG/totP*100:0;
-  document.getElementById('dTotal').textContent=yen(totB);
-  document.getElementById('hdrTotal').textContent=yen(totB);
-  document.getElementById('dDate').textContent=latDate+' 時点';
-  document.getElementById('dPrin').textContent=yen(totP);
+  document.getElementById('dTotal').textContent = yen(totB);
+  document.getElementById('hdrTotal').textContent = yen(totB);
+  document.getElementById('dDate').textContent = latDate ? latDate+' 時点' : '— 時点';
+  document.getElementById('dPrin').textContent = yen(totP);
   const ge=document.getElementById('dGain');
-  ge.textContent=yen(totG);
-  ge.className='stat-val '+(totG>=0?'pos':'neg');
+  ge.textContent=yen(totG); ge.className='stat-val '+(totG>=0?'pos':'neg');
   const re=document.getElementById('dRet');
-  re.textContent=pct(totR);
-  re.className='stat-val '+(totR>=0?'pos':'neg');
-  document.getElementById('dCnt').textContent=DB.length+' 件';
+  re.textContent=pct(totR); re.className='stat-val '+(totR>=0?'pos':'neg');
+  document.getElementById('dCnt').textContent = DB.length+' 件';
   buildChart();
 }
 
-function buildChart(){
+function buildChart() {
   const mp={};
   DB.forEach(r=>{
     const k=`${r.y}-${String(r.m).padStart(2,'0')}`;
-    if(!mp[k])mp[k]={b:0,p:0};
+    if(!mp[k]) mp[k]={b:0,p:0};
     mp[k].b+=r.b; mp[k].p+=r.p;
   });
   const ks=Object.keys(mp).sort();
   const lbs=ks.map(k=>{const[y,m]=k.split('-');return`'${y.slice(2)}/${m}`;});
-  const bals=ks.map(k=>mp[k].b);
-  const prins=ks.map(k=>mp[k].p);
   const ctx=document.getElementById('chart').getContext('2d');
-  if(chartInst)chartInst.destroy();
+  if(chartInst) chartInst.destroy();
   chartInst=new Chart(ctx,{
     type:'line',
-    data:{
-      labels:lbs,
-      datasets:[
-        {label:'資産残高',data:bals,borderColor:'#FF3366',backgroundColor:'rgba(255,51,102,.08)',
-         borderWidth:2.5,pointBackgroundColor:'#FF3366',pointBorderColor:'#000',
-         pointBorderWidth:1.5,pointRadius:2,tension:.2,fill:true},
-        {label:'元金',data:prins,borderColor:'#000',borderWidth:1.5,
-         borderDash:[4,4],pointRadius:0,tension:.2,fill:false}
-      ]
-    },
-    options:{
-      responsive:true,
-      plugins:{
-        legend:{labels:{font:{weight:'700',size:10},color:'#000',boxWidth:16}},
-        tooltip:{callbacks:{label:c=>yen(c.raw)}}
-      },
-      scales:{
-        y:{ticks:{callback:v=>'¥'+(v/10000).toFixed(0)+'万',font:{weight:'700',size:9},color:'#000'},
-           grid:{color:'rgba(0,0,0,.08)'}},
-        x:{ticks:{font:{weight:'700',size:8},color:'#000',maxTicksLimit:7},
-           grid:{display:false}}
-      }
-    }
+    data:{labels:lbs,datasets:[
+      {label:'資産残高',data:ks.map(k=>mp[k].b),borderColor:'#FF3366',backgroundColor:'rgba(255,51,102,.08)',borderWidth:2.5,pointBackgroundColor:'#FF3366',pointBorderColor:'#000',pointBorderWidth:1.5,pointRadius:2,tension:.2,fill:true},
+      {label:'元金',data:ks.map(k=>mp[k].p),borderColor:'#000',borderWidth:1.5,borderDash:[4,4],pointRadius:0,tension:.2,fill:false}
+    ]},
+    options:{responsive:true,plugins:{legend:{labels:{font:{weight:'700',size:10},color:'#000',boxWidth:16}},tooltip:{callbacks:{label:c=>yen(c.raw)}}},
+      scales:{y:{ticks:{callback:v=>'¥'+(v/10000).toFixed(0)+'万',font:{weight:'700',size:9},color:'#000'},grid:{color:'rgba(0,0,0,.08)'}},
+        x:{ticks:{font:{weight:'700',size:8},color:'#000',maxTicksLimit:7},grid:{display:false}}}}
   });
 }
 
-// ═══════════════════════════════════
-// REGISTER
-// ═══════════════════════════════════
-function calcAuto(){
-  const p=parseFloat(document.getElementById('iPrin').value)||0;
-  const b=parseFloat(document.getElementById('iBal').value)||0;
-  if(p&&b){
-    const g=b-p, r=p>0?g/p*100:0;
-    const ge=document.getElementById('aGain');
-    const re=document.getElementById('aRet');
-    ge.textContent=yen(g);
-    re.textContent=pct(r);
-    ge.style.color=g>=0?'#007700':'#CC0000';
-    re.style.color=r>=0?'#007700':'#CC0000';
+// ═══ REGISTER ═══
+function buildAcctSelect() {
+  const sel = document.getElementById('iAcc');
+  sel.innerHTML = ACCS.length===0
+    ? '<option value="">⚙️ まず口座を追加してください</option>'
+    : ACCS.map(a=>`<option value="${a}">${a}</option>`).join('');
+}
+
+function calcAuto() {
+  const b = parseFloat(document.getElementById('iBal').value)||0;
+  const g = parseFloat(document.getElementById('iGain').value)||0;
+  if(b || g) {
+    const p = b - g;
+    const ret = p>0 ? g/p*100 : 0;
+    const pe = document.getElementById('aPrin');
+    const re = document.getElementById('aRet');
+    pe.textContent = yen(p); pe.style.color = p>=0?'#333':'#CC0000';
+    re.textContent = pct(ret); re.style.color = ret>=0?'#007700':'#CC0000';
   } else {
-    document.getElementById('aGain').textContent='—';
+    document.getElementById('aPrin').textContent='—';
+    document.getElementById('aPrin').style.color='#555';
     document.getElementById('aRet').textContent='—';
-    document.getElementById('aGain').style.color='#555';
     document.getElementById('aRet').style.color='#555';
   }
 }
 
-function doReg(){
+function doReg() {
+  if(ACCS.length===0){alert('口座を先に追加してください（口座タブ）');return;}
   const yr=parseInt(document.getElementById('iYear').value);
   const mo=parseInt(document.getElementById('iMonth').value);
   const ac=document.getElementById('iAcc').value;
-  const pr=parseFloat(document.getElementById('iPrin').value);
   const ba=parseFloat(document.getElementById('iBal').value);
-  if(!yr||!mo||!ac||!pr||!ba){alert('全項目を入力してください！');return;}
-  const idx=DB.findIndex(r=>r.y===yr&&r.m===mo&&r.a===ac);
-  const nr=enrich({y:yr,m:mo,a:ac,p:pr,b:ba});
-  if(idx>=0){
-    if(!confirm(`${yr}年${mo}月の${ac}は登録済みです。上書きしますか？`))return;
-    DB[idx]=nr;
-  }else{
-    DB.push(nr);
+  const ga=parseFloat(document.getElementById('iGain').value);
+  if(!yr||!mo||!ac||isNaN(ba)||isNaN(ga)){alert('全項目を入力してください！');return;}
+  const nr = enrich({y:yr,m:mo,a:ac,b:ba,g:ga});
+  if(editIdx>=0){
+    DB[editIdx]=nr; editIdx=-1;
+    document.getElementById('editBanner').style.display='none';
+    document.getElementById('regTitle').textContent='◼ New Entry';
+    document.getElementById('regBtn').textContent='⚡ REGISTER!';
+  } else {
+    const idx=DB.findIndex(r=>r.y===yr&&r.m===mo&&r.a===ac);
+    if(idx>=0){if(!confirm(`${yr}年${mo}月の${ac}は登録済みです。上書きしますか？`))return; DB[idx]=nr;}
+    else DB.push(nr);
   }
   saveDB();
+  document.getElementById('iBal').value='';
+  document.getElementById('iGain').value='';
+  document.getElementById('aPrin').textContent='—';
+  document.getElementById('aRet').textContent='—';
   const s=document.getElementById('suc');
   s.classList.add('show');
   setTimeout(()=>s.classList.remove('show'),2200);
-  document.getElementById('iPrin').value='';
-  document.getElementById('iBal').value='';
-  document.getElementById('aGain').textContent='—';
-  document.getElementById('aRet').textContent='—';
   renderDash();
 }
 
-// ═══════════════════════════════════
-// HISTORY
-// ═══════════════════════════════════
-let curFilt='ALL';
-function filt(acc){
+function cancelEdit() {
+  editIdx=-1;
+  document.getElementById('editBanner').style.display='none';
+  document.getElementById('regTitle').textContent='◼ New Entry';
+  document.getElementById('regBtn').textContent='⚡ REGISTER!';
+  document.getElementById('iBal').value='';
+  document.getElementById('iGain').value='';
+  document.getElementById('aPrin').textContent='—';
+  document.getElementById('aRet').textContent='—';
+}
+
+// ═══ HISTORY ═══
+function buildFilterTabs() {
+  const tabs = document.getElementById('ftabs');
+  tabs.innerHTML = ['ALL',...ACCS].map(a =>
+    `<button class="ftab ${curFilt===a?'on':''}" onclick="filt('${a}')">${a}</button>`
+  ).join('');
+}
+
+function filt(acc) {
   curFilt=acc;
-  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('on'));
-  const tbs=[...document.querySelectorAll('.ftab')];
-  const found=tbs.find(t=>t.textContent.trim()===(acc==='ALL'?'ALL':acc));
-  if(found)found.classList.add('on');
+  buildFilterTabs();
   renderHist(acc);
 }
 
-function renderHist(acc){
-  const list=acc==='ALL'?[...DB]:DB.filter(r=>r.a===acc);
+function renderHist(acc) {
+  const list = acc==='ALL' ? [...DB] : DB.filter(r=>r.a===acc);
   list.sort((a,b)=>b.y*100+b.m-(a.y*100+a.m));
-  document.getElementById('rCnt').textContent=list.length+' RECORDS';
-  const el=document.getElementById('hList');
+  document.getElementById('rCnt').textContent = list.length+' RECORDS';
+  const el = document.getElementById('hList');
   if(!list.length){
     el.innerHTML=`<div class="empty"><div class="empty-ico">📭</div><p>No records yet!</p></div>`;
     return;
   }
-  el.innerHTML=list.map(r=>`
-    <div class="h-item">
+  el.innerHTML = list.map(r => {
+    const realIdx = DB.indexOf(r);
+    const col = accColor(r.a);
+    return `<div class="h-item">
       <div class="h-top">
         <div class="h-date">📅 ${r.y}年${r.m}月</div>
-        <div class="h-badge ${BG[r.a]||''}">${r.a}</div>
+        <div class="h-badge" style="background:${col}">${r.a}</div>
+        <div class="h-actions">
+          <button class="h-btn edit" onclick="editRec(${realIdx})">✏️</button>
+          <button class="h-btn del" onclick="deleteRec(${realIdx})">🗑️</button>
+        </div>
       </div>
       <div class="h-vals">
-        <div><div class="h-lbl">元金</div><div class="h-val">${yen(r.p)}</div></div>
         <div><div class="h-lbl">資産残高</div><div class="h-val">${yen(r.b)}</div></div>
+        <div><div class="h-lbl">運用益</div><div class="h-val" style="color:${r.g>=0?'#007700':'#CC0000'}">${yen(r.g)}</div></div>
+        <div><div class="h-lbl">元金</div><div class="h-val">${yen(r.p)}</div></div>
         <div><div class="h-lbl">リターン</div><div class="h-val" style="color:${r.ret>=0?'#007700':'#CC0000'}">${pct(r.ret)}</div></div>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
-// ═══════════════════════════════════
-// INIT
-// ═══════════════════════════════════
+function editRec(idx) {
+  const r = DB[idx];
+  editIdx = idx;
+  go('reg');
+  document.getElementById('editBanner').style.display='flex';
+  document.getElementById('regTitle').textContent='◼ Edit Entry';
+  document.getElementById('regBtn').textContent='💾 UPDATE!';
+  document.getElementById('iYear').value = r.y;
+  document.getElementById('iMonth').value = r.m;
+  document.getElementById('iAcc').value = r.a;
+  document.getElementById('iBal').value = r.b;
+  document.getElementById('iGain').value = r.g;
+  calcAuto();
+  window.scrollTo(0,0);
+}
+
+function deleteRec(idx) {
+  const r = DB[idx];
+  if(!confirm(`${r.y}年${r.m}月の${r.a}を削除しますか？`)) return;
+  DB.splice(idx,1);
+  saveDB();
+  renderDash();
+  buildFilterTabs();
+  renderHist(curFilt);
+}
+
+// ═══ ACCOUNT MANAGEMENT ═══
+function renderAcctList() {
+  const el = document.getElementById('acctList');
+  if(ACCS.length===0){
+    el.innerHTML=`<div class="empty"><div class="empty-ico">🏦</div><p>口座がまだありません</p></div>`;
+    return;
+  }
+  el.innerHTML = ACCS.map((acc,i)=>{
+    const cnt = DB.filter(r=>r.a===acc).length;
+    return `<div class="acct-item">
+      <div class="acct-dot" style="background:${PALETTE[i%PALETTE.length]}"></div>
+      <div>
+        <div class="acct-name">${acc}</div>
+        <div class="acct-cnt">${cnt}件のデータ</div>
+      </div>
+      <button class="acct-del" onclick="deleteAcct('${acc}',${cnt})">${cnt>0?'⚠️':'🗑️'} 削除</button>
+    </div>`;
+  }).join('');
+}
+
+function addAcct() {
+  const inp = document.getElementById('newAcctName');
+  const name = inp.value.trim();
+  if(!name){ alert('口座名を入力してください'); return; }
+  if(ACCS.includes(name)){ alert('その口座名はすでに存在します'); return; }
+  ACCS.push(name);
+  saveDB();
+  inp.value='';
+  renderAcctList();
+  document.getElementById('welcome').style.display='none';
+}
+
+function deleteAcct(acc, cnt) {
+  const msg = cnt>0
+    ? `${acc}を削除すると${cnt}件のデータも削除されます。本当に削除しますか？`
+    : `${acc}を削除しますか？`;
+  if(!confirm(msg)) return;
+  ACCS = ACCS.filter(a=>a!==acc);
+  DB = DB.filter(r=>r.a!==acc);
+  saveDB();
+  renderAcctList();
+  renderDash();
+}
+
+function renderAll() {
+  buildFilterTabs();
+  renderDash();
+  buildAcctSelect();
+  renderAcctList();
+}
+
+// ═══ INIT ═══
 (function init(){
-  const sel=document.getElementById('iYear');
-  const now=new Date();
+  const sel = document.getElementById('iYear');
+  const now = new Date();
   for(let y=now.getFullYear();y>=2020;y--){
     const o=document.createElement('option');
     o.value=y; o.textContent=y+'年'; sel.appendChild(o);
   }
-  document.getElementById('iMonth').value=now.getMonth()+1;
-  if(DB.length===0){
+  document.getElementById('iMonth').value = now.getMonth()+1;
+  const loaded = initData();
+  if(!loaded || ACCS.length===0 || DB.length===0) {
     document.getElementById('welcome').style.display='block';
   }
+  buildAcctSelect();
   renderDash();
+  buildFilterTabs();
 })();
 </script>
 </body>
